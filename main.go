@@ -2,7 +2,7 @@ package main
 
 import(
 	"net/http"
-//	"os"
+	"os"
 	"log"
 	"html/template"
 	"github.com/gorilla/mux"
