@@ -21,12 +21,12 @@ func main(){
 	r.HandleFunc("/folio",folioHandler).Methods("GET")
 
 	//Get port 
-	Port := "8086"
-/*	Port := os.Getenv("PORT")
+//	Port := "8086"
+	Port := os.Getenv("PORT")
 	if Port == ""{
 		Port == "8081"
 	}
-*/
+
 	//start server
 	server := &http.Server{
 		Handler: r,
