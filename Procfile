@@ -1,1 +1,1 @@
-web: myGOsite
+web: my-gosite
