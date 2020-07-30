@@ -10,6 +10,7 @@ import(
 
 var (
 	templ = template.Must(template.ParseGlob("templates/*.html"))
+	dir = "assets/"
 )
 
 func main(){
@@ -18,13 +19,12 @@ func main(){
 
 	//handled routes
 	r.HandleFunc("/",homeHandler).Methods("GET")
-	r.HandleFunc("/folio",folioHandler).Methods("GET")
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir(dir))))
 
-	//Get port 
-//	Port := "8086"
+	//Get port
 	Port := os.Getenv("PORT")
 	if Port == ""{
-		Port = "8080"
+		Port = "8089"
 	}
 
 	//start server
@@ -40,14 +40,7 @@ func main(){
 
 //home handler
 func homeHandler(w http.ResponseWriter,r *http.Request) {
-	//fmt.Fprintf(w,"Welcome to home")
 	err := templ.ExecuteTemplate(w,"index.html",nil)
-	Check(err)
-}
-
-//folio handler
-func folioHandler(w http.ResponseWriter,r *http.Request) {
-	err := templ.ExecuteTemplate(w,"site.html",nil)
 	Check(err)
 }
 
