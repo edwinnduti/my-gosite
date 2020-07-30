@@ -2,9 +2,6 @@
 	"ImportPath": "github.com/edwinnduti/my-gosite",
 	"GoVersion": "go1.14",
 	"GodepVersion": "v80",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/gorilla/mux",
