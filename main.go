@@ -12,7 +12,7 @@ import(
 //credentials
 var (
 	TO_EMAIL = []string{"nduti316@gmail.com"}
-	PASSWORD = "damarisi"
+	PASSWORD = "tkqhbdrjjxhkrkyr"
 	USERNAME = "nduti316@gmail.com"
 )
 
@@ -48,7 +48,7 @@ func main(){
 	//Get port
 	Port := os.Getenv("PORT")
 	if Port == ""{
-		Port = "8075"
+		Port = "8090"
 	}
 
 	//start server
