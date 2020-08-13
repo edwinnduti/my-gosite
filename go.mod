@@ -1,4 +1,8 @@
-module github.com/edwinnduti/my-gositee
+// +heroku goVersion go1.14
+// +heroku install github.com/gorilla/mux
+// +heroku install github.com/edwinnduti/devtoapi
+
+module github.com/edwinnduti/my-gosite
 
 go 1.14
 
