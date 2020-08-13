@@ -7,6 +7,7 @@ import(
 	"log"
 	"html/template"
 	"github.com/gorilla/mux"
+	"github.com/edwinnduti/devtoapi"
 )
 
 //credentials
@@ -30,6 +31,16 @@ type Message struct{
 	Message []byte
 }
 
+/*
+type Blogposts struct {
+    Titles       []string
+    Descriptions []string
+}
+*/
+type Blogposts struct{
+	Items map[string]string
+}
+
 //template folder
 var (
 	templ = template.Must(template.ParseGlob("templates/*.html"))
@@ -48,7 +59,7 @@ func main(){
 	//Get port
 	Port := os.Getenv("PORT")
 	if Port == ""{
-		Port = "8061"
+		Port = "8055"
 	}
 
 	//start server
@@ -64,7 +75,25 @@ func main(){
 
 //home handler
 func homeHandler(w http.ResponseWriter,r *http.Request) {
-	err := templ.ExecuteTemplate(w,"index.html",nil)
+
+	titles,descriptions,err := devtoapi.GetTitles("nduti")
+	Check(err)
+
+/*	blogposts := &Blogposts{
+		Titles : titles,
+		Descriptions : descriptions,
+	}
+*/
+	items := make(map[string]string)
+	for k,_ := range titles{
+		items[titles[k]] = descriptions[k]
+	}
+
+	blogposts := &Blogposts{
+		Items : items,
+	}
+
+	err = templ.ExecuteTemplate(w,"index.html",blogposts)
 	Check(err)
 }
 

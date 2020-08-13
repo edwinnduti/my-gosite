@@ -1,2 +1,4 @@
+github.com/edwinnduti/devtoapi v0.0.0-20200812092010-d598036ae8bb h1:eKdzyIarNPg7NtaVP5tV8k0ydSUYzZO/CmZDUNSGATo=
+github.com/edwinnduti/devtoapi v0.0.0-20200812092010-d598036ae8bb/go.mod h1:0e+LvssBzqeSXBoFTItZ8DvR7RI5UorQUrTI7Jl/Cx4=
 github.com/gorilla/mux v1.7.5-0.20200711200521-98cb6bf42e08 h1:kPna6oIGlRXWmg/jkKfxbpvsl+0DHYnw1qQwN+6+gyA=
 github.com/gorilla/mux v1.7.5-0.20200711200521-98cb6bf42e08/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=

@@ -439,6 +439,28 @@ rity.Also a 3rd year student in KCA University.">
     </div>
   </section><!-- End Resume Section -->
 
+
+
+  <!-- ======= Blog Section ======= -->
+  <section id="blog" class="resume">
+	<div class="container">
+		<div class="section-title">
+			<h2>Blog</h2>
+			<p>Check My Blog posts</p>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<h3 class="resume-title">A list of Posts</h3>
+				<div class="resume-item pb-0">
+					{{range $k,$v := .Items}}
+					<h4>{{$k}}</h4>
+					<p><em>{{ $v }}</em></p>
+					{{end}}
+				</div>
+			</div>
+  </section><!-- End Blog section -->
+
+
   <!-- ======= Services Section ======= -->
   <section id="services" class="services">
     <div class="container">
