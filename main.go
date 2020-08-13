@@ -54,7 +54,7 @@ func main(){
 	//Get port
 	Port := os.Getenv("PORT")
 	if Port == ""{
-		Port = "8081"
+		Port = "8072"
 	}
 
 	//start server
@@ -115,7 +115,7 @@ func sendMail(w http.ResponseWriter,r *http.Request) {
 		message.Subject = []byte(subject)
 	}
 
-	msg := []byte("Subject:"+string(message.Subject)+"\r\n"+"From:"+string(message.From)+"\r\n"+ "\r\n" +mime+"<html><head><style>#rcorners {border-radius: 25px; background: #8AC007; padding: 20px; width: 90%; height: 100%;}</style></head><body id=\"rcorners\"><h3 background-color=\"blue\">"+string(message.Subject)+"</h3><h3>"+name+"</h3><h3>"+from+"</h3><br><pre>"+string(message.Message)+"</pre></body></html>")
+	msg := []byte("From: "+string(message.From)+"\r\n"+"Subject:"+string(message.Subject)+"\r\n"+"\r\n"+mime+"<html><head><style>#rcorners {border-radius: 25px; background: #8AC007; padding: 20px; width: 90%; height: 100%;}</style></head><body id=\"rcorners\"><h3 background-color=\"blue\">"+string(message.Subject)+"</h3><h3>"+name+"</h3><h3>"+from+"</h3><br><pre>"+string(message.Message)+"</pre></body></html>")
 
 	message.Message = msg
 
