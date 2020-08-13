@@ -130,20 +130,16 @@
       data: data,
       timeout: 40000
     }).done( function(msg){
-      if (msg == 'OK') {
+      if (msg == 'OK' || !msg) {
         this_form.find('.loading').slideUp();
         this_form.find('.sent-message').slideDown();
         this_form.find("input:not(input[type=submit]), textarea").val('');
       } else {
-  //copied and added this to remove error message      
 	this_form.find('.loading').slideUp();
-	this_form.find('.sent-message').slideDown();
-	this_form.find("input:not(input[type=submit]), textarea").val('');
-	/*this_form.find('.loading').slideUp();
         if(!msg) {
           msg = 'Form submission failed and no error message returned from: ' + action + '<br>';
         }
-        this_form.find('.error-message').slideDown().html(msg);*/
+        this_form.find('.error-message').slideDown().html(msg);
       }
     }).fail( function(data){
       console.log(data);

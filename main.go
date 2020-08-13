@@ -31,12 +31,7 @@ type Message struct{
 	Message []byte
 }
 
-/*
-type Blogposts struct {
-    Titles       []string
-    Descriptions []string
-}
-*/
+//Blogpost struct
 type Blogposts struct{
 	Items map[string]string
 }
@@ -59,7 +54,7 @@ func main(){
 	//Get port
 	Port := os.Getenv("PORT")
 	if Port == ""{
-		Port = "8060"
+		Port = "8071"
 	}
 
 	//start server
@@ -73,29 +68,32 @@ func main(){
 	server.ListenAndServe()
 }
 
+
+
 //home handler
 func homeHandler(w http.ResponseWriter,r *http.Request) {
 
+	//GET title and descriptions
 	titles,descriptions,err := devtoapi.GetTitles("nduti")
 	Check(err)
 
-/*	blogposts := &Blogposts{
-		Titles : titles,
-		Descriptions : descriptions,
-	}
-*/
+	//map titles to descriptions
 	items := make(map[string]string)
 	for k,_ := range titles{
 		items[titles[k]] = descriptions[k]
 	}
 
+	//map blogpost struct to items
 	blogposts := &Blogposts{
 		Items : items,
 	}
 
+	//render template
 	err = templ.ExecuteTemplate(w,"index.html",blogposts)
 	Check(err)
 }
+
+
 
 //mail handler
 func sendMail(w http.ResponseWriter,r *http.Request) {
@@ -117,7 +115,7 @@ func sendMail(w http.ResponseWriter,r *http.Request) {
 		message.Subject = []byte(subject)
 	}
 
-	msg := []byte(string(message.Subject)+mime+"<html><body><h1>"+string(message.Subject)+"</h1><br><h3>"+name+"</h3><br><h3>"+from+"</h3><br><pre>"+string(message.Message)+"</pre></body></html>")
+	msg := []byte(string(message.Subject)+mime+"<html><head><style>#rcorners {border-radius: 25px; background: #8AC007; padding: 20px; width: 90%; height: 100%;}</style></head><body id=\"rcorners\"><h3 background-color=\"blue\">"+string(message.Subject)+"</h3><h3>"+name+"</h3><h3>"+from+"</h3><br><pre>"+string(message.Message)+"</pre></body></html>")
 
 	message.Message = msg
 
@@ -138,6 +136,8 @@ func sendMail(w http.ResponseWriter,r *http.Request) {
 
 
 }
+
+
 
 //error handler
 func Check(err error) {
