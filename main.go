@@ -49,6 +49,7 @@ func main(){
 	//handled routes
 	r.HandleFunc("/",homeHandler).Methods("GET")
 	r.HandleFunc("/forms/contact",sendMail).Methods("POST")
+	r.HandleFunc("/d2ip",domain2IP).Methods("GET")
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir(dir))))
 
 	//Get port
@@ -132,12 +133,16 @@ func sendMail(w http.ResponseWriter,r *http.Request) {
 	if err!=nil{
 		Check(err)
 	}
-	log.Println("Email Sent!")
+	log.Println("Email Sent Successfully!")
 
 
 }
 
-
+//domain to ip address handler
+func domain2IP(w http.ResponseWriter,r *http.Request){
+	err := templ.ExecuteTemplate(w,"ipaddress.html")
+	Check(err)
+}
 
 //error handler
 func Check(err error) {
