@@ -140,7 +140,7 @@ func sendMail(w http.ResponseWriter,r *http.Request) {
 
 //domain to ip address handler
 func domain2IP(w http.ResponseWriter,r *http.Request){
-	err := templ.ExecuteTemplate(w,"ipaddress.html")
+	err := templ.ExecuteTemplate(w,"ipaddress.html",nil)
 	Check(err)
 }
 
