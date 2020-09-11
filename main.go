@@ -3,6 +3,7 @@ package main
 import(
 	"net/http"
 	"net/smtp"
+	"net"
 	"os"
 	"log"
 	"html/template"
@@ -55,7 +56,7 @@ func main(){
 	//Get port
 	Port := os.Getenv("PORT")
 	if Port == ""{
-		Port = "8280"
+		Port = "8081"
 	}
 
 	//start server
@@ -140,7 +141,16 @@ func sendMail(w http.ResponseWriter,r *http.Request) {
 
 //domain to ip address handler
 func domain2IP(w http.ResponseWriter,r *http.Request){
-	err := templ.ExecuteTemplate(w,"ipaddress.html",nil)
+	//resolve IP
+	ips,err := net.LookupHost("google.com")
+	Check(err)
+
+	log.Println("The Ip address(s) is:")                                                                //iterate over the Ip addresses
+	for _,addr := range ips{
+		log.Printf("%v\n",addr)
+	}
+
+	err = templ.ExecuteTemplate(w,"ipaddress.html",nil)
 	Check(err)
 }
 
