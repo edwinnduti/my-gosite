@@ -4,7 +4,7 @@
 ![License: MIT](https://img.shields.io/badge/Fontend-Bootstrap-darkblue.svg)
 
 A personal portfolio site built using Golang backend and a bootstrap frontend.
-Visit the ![site](https://edwinswebapp.herokuapp.com)
+Visit the [site](https://edwinswebapp.herokuapp.com)
 To run it:
 ```bash
 $ git clone https://github.com/edwinnduti/my-gosite.git
