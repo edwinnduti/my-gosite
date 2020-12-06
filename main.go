@@ -13,9 +13,9 @@ import(
 
 //credentials
 var (
-	TO_EMAIL = []string{"nduti316@gmail.com"}
-	PASSWORD = "tkqhbdrjjxhkrkyr"
-	USERNAME = "nduti316@gmail.com"
+	TO_EMAIL = []string{os.Getenv("USERNAME")}
+	PASSWORD = os.Getenv("PASSWORD")
+	USERNAME = os.Getenv("USERNAME")
 )
 
 //smtp FQDN
