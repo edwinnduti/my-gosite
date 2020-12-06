@@ -1,6 +1,5 @@
 # my-gosite
-A personal portfolio site built using Golang backend.
-
+A personal portfolio site built using Golang backend and a bootstrap frontend.
 To run it:
 ```bash
 $ git clone https://github.com/edwinnduti/my-gosite.git
