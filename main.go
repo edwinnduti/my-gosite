@@ -1,14 +1,11 @@
 package main
 
-import(
-	"net/http"
-	"net/smtp"
-	"net"
-	"os"
+import (
 	"log"
-	"html/template"
-	"github.com/gorilla/mux"
-	"github.com/edwinnduti/devtoapi"
+	"net/http"
+	"os"
+
+	"github.com/edwinnduti/my-gosite/router"
 )
 
 //credentials
@@ -16,147 +13,25 @@ var (
 	TO_EMAIL = []string{os.Getenv("USERNAME")}
 	PASSWORD = os.Getenv("PASSWORD")
 	USERNAME = os.Getenv("USERNAME")
+	Port     = os.Getenv("PORT")
 )
 
-//smtp FQDN
-type SmtpServer struct{
-	Host string
-	Port string
-}
+func main() {
+	// call router
+	r := router.Route()
 
-//message form
-type Message struct{
-	Name    string
-	From    string
-	Subject []byte
-	Message []byte
-}
-
-//Blogpost struct
-type Blogposts struct{
-	Items map[string]string
-}
-
-//template folder
-var (
-	templ = template.Must(template.ParseGlob("templates/*.html"))
-	dir = "assets/"
-)
-
-func main(){
-	//Register router
-	r := mux.NewRouter()
-
-	//handled routes
-	r.HandleFunc("/",homeHandler).Methods("GET")
-	r.HandleFunc("/forms/contact",sendMail).Methods("POST")
-	r.HandleFunc("/d2ip",domain2IP).Methods("GET")
-	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir(dir))))
-
-	//Get port
-	Port := os.Getenv("PORT")
-	if Port == ""{
+	// set port
+	if Port == "" {
 		Port = "8081"
 	}
 
 	//start server
 	server := &http.Server{
 		Handler: r,
-		Addr   : ":"+Port,
+		Addr:    ":" + Port,
 	}
 
 	//log output
-	log.Printf("Listening on port: %v",Port)
+	log.Printf("Listening on port: %v", Port)
 	server.ListenAndServe()
-}
-
-
-
-//home handler
-func homeHandler(w http.ResponseWriter,r *http.Request) {
-
-	//GET title and descriptions
-	titles,descriptions,err := devtoapi.GetTitles("nduti")
-	Check(err)
-
-	//map titles to descriptions
-	items := make(map[string]string)
-	for k,_ := range titles{
-		items[titles[k]] = descriptions[k]
-	}
-
-	//map blogpost struct to items
-	blogposts := &Blogposts{
-		Items : items,
-	}
-
-	//render template
-	err = templ.ExecuteTemplate(w,"index.html",blogposts)
-	Check(err)
-}
-
-
-
-//mail handler
-func sendMail(w http.ResponseWriter,r *http.Request) {
-	message := &Message{
-		Name  : r.PostFormValue("name"),
-		From  : r.PostFormValue("email"),
-		Subject : []byte(r.PostFormValue("subject")),
-		Message : []byte(r.PostFormValue("message")),
-	}
-
-
-	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n";
-
-	subject := "Subject :Mail from your site!\n"
-	name := "Message from : "+ message.Name
-	from := "Email address: "+message.From
-
-	if message.Subject == nil{
-		message.Subject = []byte(subject)
-	}
-
-	msg := []byte("From: "+string(message.From)+"\r\n"+"Subject:"+string(message.Subject)+"\r\n"+mime+"<html><head><style>#rcorners {border-radius: 25px; background: #8AC007; padding: 20px; width: 90%; height: 100%;}</style></head><body id=\"rcorners\"><h3 background-color=\"blue\">"+string(message.Subject)+"</h3><h3>"+name+"</h3><h3>"+from+"</h3><br><pre>"+string(message.Message)+"</pre></body></html>")
-
-	message.Message = msg
-
-	smtpServer := &SmtpServer{
-		Host : "smtp.gmail.com",
-		Port : "587",
-	}
-
-	address := smtpServer.Host+":"+smtpServer.Port
-
-	auth := smtp.PlainAuth("",USERNAME,PASSWORD,smtpServer.Host)
-
-	err := smtp.SendMail(address,auth,message.From,TO_EMAIL,message.Message)
-	if err!=nil{
-		Check(err)
-	}
-	log.Println("Email Sent Successfully!")
-
-
-}
-
-//domain to ip address handler
-func domain2IP(w http.ResponseWriter,r *http.Request){
-	//resolve IP
-	ips,err := net.LookupHost("google.com")
-	Check(err)
-
-	log.Println("The Ip address(s) is:")                                                                //iterate over the Ip addresses
-	for _,addr := range ips{
-		log.Printf("%v\n",addr)
-	}
-
-	err = templ.ExecuteTemplate(w,"ipaddress.html",nil)
-	Check(err)
-}
-
-//error handler
-func Check(err error) {
-	if err != nil{
-		log.Fatalln(err)
-	}
 }
